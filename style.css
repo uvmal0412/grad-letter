@@ -1,0 +1,302 @@
+:root {
+  --color-olive: #4a5e2a;
+  --color-olive-dark: #3a4e1e;
+  --color-olive-light: #6a7e3a;
+  --color-cream: #f9f6f0;
+  --color-cream-dark: #e8e0d0;
+  --color-gold: #c8b98c;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+}
+
+/* Poster Layout */
+.poster-wrapper {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.poster-bg {
+  height: 100vh;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.pose-container {
+  position: absolute;
+  top: 46%;
+  /* Tùy chỉnh vị trí để vừa với mũi tên */
+  left: 33%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  animation: float 4s ease-in-out infinite alternate;
+  z-index: 10;
+}
+
+.pose-image {
+  max-width: 200px;
+  /* Giữ ảnh nhỏ để không bị vỡ */
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: block;
+}
+
+/* Float animation for the main image to make it dynamic */
+@keyframes float {
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+/* Small Love Letter */
+.small-letter-container {
+  position: absolute;
+  top: 65%;
+  /* Chỉnh xuống dưới chỗ tay chỉ */
+  right: 73%;
+  /* Nằm lui vào trong ảnh một chút, hoặc đẩy ra tùy vị trí tay */
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.small-letter-container:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.small-letter-icon {
+  width: 45px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Pulse ring around the small letter to draw attention */
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: -1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Big Letter Overlay */
+.big-letter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.big-letter-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Envelope Container */
+.big-letter-container {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  perspective: 1000px;
+  transform: translateY(50px) scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.big-letter-overlay.active .big-letter-container {
+  transform: translateY(0) scale(1);
+}
+
+/* Envelope Construct */
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.envelope-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-olive-dark);
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.envelope-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 3;
+  /* CSS triangle for the front pocket */
+  border-left: 200px solid var(--color-olive-light);
+  border-right: 200px solid var(--color-olive-light);
+  border-bottom: 125px solid var(--color-olive);
+  border-top: 125px solid transparent;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 4;
+  /* CSS triangle for the flap */
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+  border-top: 125px solid #576d33;
+  border-bottom: 125px solid transparent;
+  transform-origin: top center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+/* Flap Open Animation */
+.big-letter-overlay.open .envelope-flap {
+  transform: rotateX(-180deg);
+  z-index: 1;
+  /* Drop it behind the paper when open */
+}
+
+/* The Paper */
+.paper {
+  position: absolute;
+  top: 10px;
+  left: 5%;
+  width: 90%;
+  height: 220px;
+  background-color: var(--color-cream);
+  border-radius: 4px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+}
+
+/* Paper slide up animation */
+.big-letter-overlay.open .paper {
+  transform: translateY(-120px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.paper-title {
+  font-family: var(--font-display);
+  color: var(--color-olive-dark);
+  font-size: 24px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--color-gold);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: var(--color-olive);
+  box-shadow: 0 0 0 3px rgba(74, 94, 42, 0.1);
+}
+
+.go-btn {
+  background-color: var(--color-olive);
+  color: var(--color-cream);
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.go-btn:hover {
+  background-color: var(--color-olive-dark);
+  transform: translateY(-2px);
+}
+
+.go-btn:active {
+  transform: translateY(0);
+}

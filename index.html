@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Mời Tốt Nghiệp</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="poster-wrapper">
+        <img class="poster-bg" src="graduate_letter.jpg" alt="Background Poster">
+
+
+        <div class="pose-container">
+            <img src="this_pose.png" alt="My Pose" class="pose-image">
+            <div class="small-letter-container" id="smallLetter">
+                <img src="love-letter.png" alt="Love Letter" class="small-letter-icon">
+                <div class="pulse-ring"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="big-letter-overlay" id="bigLetterOverlay">
+        <div class="big-letter-container">
+            <div class="envelope">
+                <div class="envelope-back"></div>
+                <div class="paper" id="invitationPaper">
+                    <h2 class="paper-title">Ghi tên vào đây</h2>
+                    <div class="input-group">
+                        <input type="text" id="guestNameInput" placeholder="Họ + tên của bạn (VD: vlam)..."
+                            autocomplete="off">
+                        <button id="goButton" class="go-btn">Go</button>
+                    </div>
+                </div>
+                <div class="envelope-front"></div>
+                <div class="envelope-flap" id="envelopeFlap"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
