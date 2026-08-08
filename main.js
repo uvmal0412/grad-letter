@@ -1,3 +1,33 @@
+// =====================================================
+// DANH SÁCH KHÁCH MỜI HỢP LỆ
+// Thêm hoặc xóa tên slug tương ứng với file .html bạn đã tạo
+// =====================================================
+const validGuests = [
+    "vlam",
+    "bkhanh",
+    "ctrang",
+    "lphuong",
+    "lviet",
+    "mmy",
+    "nuyen",
+    "pphuong",
+    "thuong",
+    "tlinh",
+    "tminh",
+    "tanh"
+];
+
+// Hàm rung lắc ô input
+function shakeInput(input) {
+    input.style.animation = 'none';
+    // Ép browser reset animation trước khi chạy lại
+    input.offsetHeight;
+    input.style.animation = 'shake 0.4s ease';
+    setTimeout(() => {
+        input.style.animation = '';
+    }, 400);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const smallLetter = document.getElementById('smallLetter');
     const bigLetterOverlay = document.getElementById('bigLetterOverlay');
@@ -31,43 +61,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (goButton) {
-        goButton.addEventListener('click', async () => {
+        goButton.addEventListener('click', () => {
             const name = guestNameInput.value.trim().toLowerCase();
-            if (name) {
-                goButton.innerText = 'Đang tìm...';
-                goButton.style.opacity = '0.8';
 
-                const targetPage = encodeURIComponent(name) + '.html';
-
-                try {
-                    // Kiểm tra xem file name.html có tồn tại không
-                    const response = await fetch(targetPage, { method: 'HEAD' });
-
-                    if (response.ok) {
-                        // Nếu file tồn tại, chuyển hướng sau một chút delay cho mượt
-                        setTimeout(() => {
-                            window.location.href = targetPage;
-                        }, 500);
-                    } else {
-                        // Nếu server trả về 404, ném lỗi để chạy vào catch
-                        throw new Error('Not found');
-                    }
-                } catch (error) {
-                    // Nếu file không tồn tại hoặc lỗi mạng, rung lắc ô input
-                    goButton.innerText = 'Go';
-                    goButton.style.opacity = '1';
-
-                    guestNameInput.style.animation = 'shake 0.4s ease';
-                    setTimeout(() => {
-                        guestNameInput.style.animation = '';
-                    }, 400);
-                }
-            } else {
-                guestNameInput.style.animation = 'shake 0.4s ease';
-                setTimeout(() => {
-                    guestNameInput.style.animation = '';
-                }, 400);
+            if (!name) {
+                // Ô trống -> rung lắc
+                shakeInput(guestNameInput);
+                return;
             }
+
+            if (!validGuests.includes(name)) {
+                // Tên không hợp lệ -> rung lắc, không chuyển trang
+                shakeInput(guestNameInput);
+                return;
+            }
+
+            // Tên hợp lệ -> chuyển hướng đến file .html tương ứng
+            goButton.innerText = 'Đang mở thư...';
+            goButton.style.opacity = '0.8';
+            setTimeout(() => {
+                window.location.href = encodeURIComponent(name) + '.html';
+            }, 600);
         });
     }
 
@@ -85,9 +99,9 @@ const style = document.createElement('style');
 style.innerHTML = `
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-8px); }
 }
 `;
 document.head.appendChild(style);
